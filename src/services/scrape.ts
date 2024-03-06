@@ -13,8 +13,8 @@ class ScrapeService {
         while (icon_url.startsWith('.') || icon_url.startsWith('/')) {
           icon_url = icon_url.slice(1, icon_url.length);
         }
-
-        icon_url = base_url + icon_url;
+        if (!icon_url.startsWith('https://') && !icon_url.startsWith('http://'))
+          icon_url = base_url + icon_url;
 
         icons.push(icon_url);
       }
@@ -64,7 +64,7 @@ class ScrapeService {
         screenshot,
       };
     } catch (error: any) {
-      throw new ScraperError(error.message, 503);
+      throw new ScraperError(error.message.split(':')[1], 503);
     } finally {
       await page.close();
       await browser.close();

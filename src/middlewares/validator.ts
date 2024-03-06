@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from 'express';
-import {ValidationChain, param, validationResult} from 'express-validator';
+import {ValidationChain, query, validationResult} from 'express-validator';
 
 const handleValidationErrors = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
@@ -10,7 +10,7 @@ const handleValidationErrors = (req: Request, res: Response, next: NextFunction)
 
 const validate = {
   scrape: [
-    param('url')
+    query('url')
       .notEmpty()
       .withMessage('url is required')
       .isURL()
