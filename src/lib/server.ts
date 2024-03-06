@@ -9,8 +9,11 @@ const create = () => {
   app.use(cors());
   app.use('/scrape', scrape);
 
-  app.use(async (error: unknown, req: Request, res: Response, next: NextFunction) => {
-    console.log(error);
+  app.use(async (error: any, req: Request, res: Response, next: NextFunction) => {
+    const status = error.status || error.statusCode || 503;
+    const msg = error.message || error.msg || 'an error occurred';
+
+    res.status(status).json({status, msg});
   });
 
   return app;
